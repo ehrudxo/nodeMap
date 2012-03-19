@@ -32,7 +32,7 @@ app.get(/^\/nmap?(?:\/(\d+)(?:\/(\d+))(?:\/(\d+))?)?/,function(req,res){
 //http://localhost:3000/canvas/bbox/123
 app.get("/canvas/bbox/:bbox",function(req,res){
 	//res.send("보내신 BBOX는 :"+req.params.bbox+"입니다.");
-	nodeMap.makeCanvas(res);
+	nodeMap.makeCanvas(res); 
 });
 
 app.listen(parseInt(process.argv[2] || '3000', 10));
