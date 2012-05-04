@@ -1,0 +1,12 @@
+var BaseType = require('../../lib/atomic/BaseTypes.js'); 
+var LonLat = BaseType.LonLat;
+var lonlat1 = new LonLat(25,12);
+console.log( lonlat1.toString() );
+var lonlat2 = new LonLat({lon:32,lat:64});
+console.log( lonlat2.toString() );
+var Bounds = BaseType.Bounds;
+console.log( Bounds );
+var bounds1 = new Bounds(1,2,3,4);
+console.log( bounds1.toString() );
+var bounds2 = new Bounds( {minx:5,miny:6,maxx:7,maxy:8} );
+console.log(bounds2.toString());

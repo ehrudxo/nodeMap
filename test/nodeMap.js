@@ -1,1 +1,0 @@
-var Pallete = require("./Pallete");
