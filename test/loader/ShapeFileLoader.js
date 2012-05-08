@@ -10,7 +10,7 @@ var filePath ="/Users/keen/dev/file/shp/bar.shp";
 var parser = new Parser();
 var option ={
 		"parser" : parser
-		, srid : "5186" //EPSG
+		, srid : "5181" //EPSG
 		,"dbfRead": function( fields ){
 //			console.log("dbfRead");
 //			console.log(fields);
