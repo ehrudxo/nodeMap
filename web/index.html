@@ -6,6 +6,8 @@
 </script>
 <script src ='http://openlayers.org/api/OpenLayers.js'></script>
 <script src="./js/nodeMap.js"></script>
+<script src="./js/proj4js-compressed.js"></script>
+<script src="./js/proj4js-add.js"></script>
 <style>
       .olControlAttribution {
           position: absolute;
@@ -28,7 +30,7 @@
 </body>
 </html>
 <script type="text/javascript">
-	var layer = new nodeMap.Layer("imgSvc","http://localhost:3000/canvas/imgSvc/",{
+	var layer = new nodeMap.Layer("imgSvc","/canvas/imgSvc/",{
 	       layers: "bar",
 	       transparent: true
 	   }, {
@@ -63,7 +65,10 @@
 	map.addLayer( tile );
  	map.setBaseLayer( tile );
  	map.addLayer( layer );
- 	var zoomBounds = new OpenLayers.Bounds(14081915.585349105,4369640.510649829,14091915.585349105,4370640.510649829)
+ 	
+ 	var p1 = new Proj4js.Point(14142665.637101248,4549589.199757916);   //any object will do as long as it has 'x' and 'y' properties
+ 	var p2 = new Proj4js.Point(14152665.637101248,4550589.199757916);
+ 	var zoomBounds = new OpenLayers.Bounds(p1.x,p1.y,p2.x,p2.y);
  	map.zoomToExtent(zoomBounds);
 	map.zoomTo( 12 );
 	

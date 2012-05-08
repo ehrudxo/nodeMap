@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<script src="./js/proj4js-compressed.js" type="text/javascript"></script>
+	<script>
+	var change = function(){
+		var src_val		  = document.epsgcontrol.src_point.value;
+		var src_epsg  = document.epsgcontrol.src_epsg.value;
+		var dest_epsg = document.epsgcontrol.dest_epsg.value;
+		
+		var source = new Proj4js.Proj('EPSG:'+src_epsg);    
+		var dest = new Proj4js.Proj('EPSG:'+dest_epsg);  
+		var p = new Proj4js.Point(parseFloat(src_val.split(",")[0]),parseFloat(src_val.split(",")[1]));
+		Proj4js.transform(source, dest, p); 
+		document.epsgcontrol.dest_point.value = p.x+","+p.y;
+	}
+	</script>
+	</head>
+	<body style="padding:200px 0px 0px 200px;">
+	<div style="align:center;padding:0px 0px 0px 400px;"><strong><h2>좌표변환</h2></strong></div>
+	<form name="epsgcontrol">
+	<select name="src_epsg">
+	<option value="4326">wgs84(4326)</option>
+	<option value="6640">중부(6640)</option>
+	<option value="6640E">동부(6640E)</option>
+	<option value="6814">제주(6814)</option>
+	<option value="5183">60만동부(5183)</option>
+	<option value="5186">60만중부(5186)</option>
+	<option value="900913">구글(900913)</option>
+	</select>
+	<input name="src_point" size='40'/>
+	
+	&nbsp;&nbsp;&nbsp; 
+	<input type="button" value="--&gt" onclick="change();"> 
+	&nbsp;&nbsp;&nbsp;
+	
+	<select name="dest_epsg">
+	<option value="6640">중부(6640)</option>
+	<option value="4326">wgs84(4326)</option>
+	<option value="6640E">동부(6640E)</option>
+	<option value="6814">제주(6814)</option>
+	<option value="5183">동부(5183)</option>
+	<option value="5186">60만중부(5186)</option>
+	<option value="900913">구글(900913)</option>
+	</select>
+	<input name="dest_point" size='40'/>
+	</form>
+	</body>
+</html>
