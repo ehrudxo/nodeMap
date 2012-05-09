@@ -34,7 +34,7 @@
 	       layers: "bar",
 	       transparent: true
 	   }, {
-	       opacity: 0.5,
+	       opacity: 1,
 	       singleTile: true
 	   });
 	var baseoption = {
@@ -70,6 +70,6 @@
  	var p2 = new Proj4js.Point(14152665.637101248,4550589.199757916);
  	var zoomBounds = new OpenLayers.Bounds(p1.x,p1.y,p2.x,p2.y);
  	map.zoomToExtent(zoomBounds);
-	map.zoomTo( 12 );
+	//setTimeout("map.zoomTo( 12 )",0);
 	
 </script>
