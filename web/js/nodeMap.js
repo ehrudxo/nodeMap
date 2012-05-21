@@ -10,26 +10,19 @@ NodeMap.prototype.Tile = OpenLayers.Class(OpenLayers.Layer.TMS,{
 	    var z = this.map.getZoom();
 	    var limit = Math.pow(2, z);
 	    if (y < 0 || y >= limit) {
-	        return AlThree.imagePath + "404.png";
+	        return OpenLayers.imagePath + "404.png";
 	    } else {
 	        x = ((x % limit) + limit) % limit;
 	        return this.url + z + "/" + x + "/" + y + "." + this.type;
 	    }
 	},
-	className: "AlThree.Layer.Tile"
+	className: "NodeMap.client.Layer.Tile"
 });
 NodeMap.prototype.Layer = OpenLayers.Class(OpenLayers.Layer.WMS,{
-	/** @lends MapCluster.Layer.BaseTileLayer# */
 	getURL: function(bounds) {
 		bounds = this.adjustBounds(bounds);
-		
-		
         var imageSize = this.getImageSize(); 
         if (parseFloat(this.params.VERSION) >= 1.3) {  
-        	               // currently there is no way to ask proj4js for the axes order  
-        	               // so this is what we assume: if the projection is an EPSG code  
-        	               // >= 4000 and < 5000 the axes order is Latitude Longitude instead  
-        	               // of Longitude Latitude (or X Y).  
            var projection = this.map.getProjection();  
            var projArray = projection.split(":");  
            var prefix = projArray[0];  
@@ -39,20 +32,13 @@ NodeMap.prototype.Layer = OpenLayers.Class(OpenLayers.Layer.WMS,{
 	                   bounds = bounds.swapAxisOrder();  
 	       }  
        }
-       console.log(bounds);
+       var dest = new OpenLayers.Projection("EPSG:5181");
+       bounds = bounds.transform( map.projection, dest);
        var ba = bounds.toArray();
-       var source = new Proj4js.Proj("EPSG:3785");    //source coordinates will be in Longitude/Latitude
-       var dest = new Proj4js.Proj("EPSG:5181");     //destination coordinates in LCC, south of France
-       var p1 = new Proj4js.Point(ba[0],ba[1]);   //any object will do as long as it has 'x' and 'y' properties
-       var p2 = new Proj4js.Point(ba[2],ba[3]);
-       Proj4js.transform(source, dest, p1);  
-       Proj4js.transform(source, dest, p2);  
-       
-//	   var _mapBounds = this.params.LAYERS+","+imageSize.w+","+imageSize.h+","+(this.encodeBBOX ?  bounds.toBBOX() : bounds.toArray());
-       var _mapBounds = this.params.LAYERS+","+imageSize.w+","+imageSize.h+","+p1.x+","+p1.y+","+p2.x+","+p2.y;
+	   var _mapBounds = this.params.LAYERS+","+imageSize.w+","+imageSize.h+","+(this.encodeBBOX ?  bounds.toBBOX() : bounds.toArray());
        return this.url+ _mapBounds;
 	},
-	className: "AlThree.Layer.BaseTileLayer"
+	className: "NodeMap.client.Layer.ImageLayer"
 });
 var nodeMap = new NodeMap();
 
