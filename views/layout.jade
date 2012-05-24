@@ -3,6 +3,25 @@ html
   head
     title GetMap
     link(href='/css/layout.css', rel='stylesheet')
-    script(src='/web/js/nodeMap.js')
+    script(src='https://getfirebug.com/firebug-lite.js')
+    script(src='http://openlayers.org/api/OpenLayers.js')
+    script(src='../web/js/proj4js-compressed.js')
+    script(src='../web/js/proj4js-add.js')
+    script(src='../web/js/nodeMap.js')
+    style
+      .olControlAttribution {
+        position: absolute;
+        font-size: 10px;
+        bottom: 0;
+        right: 0;
+        background: rgba(0,0,0,0.1);
+        font-family: Arial;
+        padding: 2px 4px;
+        border-radius: 5px 0 0 0;
+      }
+      div.olControlZoomPanel {
+        top: 15px;
+        left: 15px;
+      }
   body
     #primary!= body

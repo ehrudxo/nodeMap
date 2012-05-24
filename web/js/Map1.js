@@ -1,10 +1,10 @@
 var layer = new nodeMap.Layer("imgSvc","/canvas/imgSvc/",{
-       layers: "bar",
-       transparent: true
-   }, {
-       opacity: 1,
-       singleTile: true
-   });
+	       layers: "dbAdaptor-bar-0",
+	       transparent: true
+	   }, {
+	       opacity: 1,
+	       singleTile: true
+	   });
 var baseoption = {
 		type: 'png', 
 		displayOutsideMaxExtent: false,
@@ -13,6 +13,7 @@ var baseoption = {
 		isBaseLayer :true
 };
 var tile = new nodeMap.Tile("기본지도",nodeMap.url+"/1.0.0/basic/",baseoption);
+OpenLayers.ImgPath = "../../img/";
 var map = new OpenLayers.Map({
     div: "map",
     controls: [new OpenLayers.Control.Attribution(),

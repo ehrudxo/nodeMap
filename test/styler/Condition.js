@@ -1,0 +1,20 @@
+var condition = require('../../lib/styler/Condition');
+console.log(condition.assert( 10,"<",20 ));
+console.log(condition.assert( 10,">",20) );
+console.log(condition.assert( 10,"<=",20 ));
+console.log(condition.assert( 10,">=",20 ));
+console.log(condition.assert( 10,"<>",20 ));
+console.log(condition.assert( 10,"==",20 ));
+console.log(condition.assert( 10,"=",20 ));
+console.log(condition.assert( 10,"!=",20 ));
+console.log(condition.assert( true,"&&",true ));
+console.log(condition.assert( true,"&&",false ));
+console.log(condition.assert( true,"||",true ));
+console.log(condition.assert( true,"||",false ));
+console.log(condition.assert( 10,"||",20 ));
+console.log(condition.assert( false,"!" ));
+console.log(condition.assert( undefined,"is null" ));
+console.log(condition.assert( undefined,"is not null" ));
+console.log(condition.assert( null,"is null" ));
+console.log(condition.assert( null,"is not null" ));
+

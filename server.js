@@ -1,12 +1,10 @@
 var express 	= require('express')
 	, app 		= express.createServer()
 	, nodeMap 	= require('./lib/NodeMap')
-	, Bounds  	= require('./lib/atomic/BaseTypes')
-	, Bar 		= require('./lib/model/layer/bar').Layer
 	, Bounds 	= require('./lib/atomic/BaseTypes').Bounds
-	, styler 	= require('./lib/styler/Styler') 
-	, adaptor 	= require('./lib/adaptor/database/pg/PostGisAdaptor')
+	
 	, writer 	= require('./lib/writer/ImgTagWriter')
+	, test		= require('./server-test')
 	, jade 		= require('jade');
 
 //css, image등등의 static folder 셋팅 .
@@ -28,6 +26,9 @@ app.configure(function(){
 app.get("/", function(req,res){
 	res.render("getMap");
 });
+app.get("/Map1", function(req,res){
+	res.render("Map1");
+});
 app.get(/^\/users?(?:\/(\d+)(?:\.\.(\d+))?)?/, function(req, res){
 	res.send(__dirname+"<BR>"+"보내신 userId는 :"+req.params+"입니다.");
 	nodeMap.Logger(__dirname,nodeMap.version);
@@ -37,40 +38,22 @@ app.get(/^\/nmap?(?:\/(\d+)(?:\/(\d+))(?:\/(\d+))?)?/,function(req,res){
 });
 //http://localhost:3000/canvas/bbox/123
 app.get("/canvas/imgSvc/:str",function(req,res){
-	console.log("service called");
-	var layer, size,bbox;
-	var arrString = req.params.str.split(",");
-	if(arrString.length != 7){
-		res.send("보내신 BBOX는 :"+req.params.str+"입니다.");
-	}else{
-		layer = arrString[0];
-		size ={ x :arrString[1], y : arrString[2] };
-		bbox = new Bounds(arrString[3],arrString[4],arrString[5],arrString[6]);
-		var bar = new Bar();
-		bar.setAdaptor( adaptor );
-		styler.init({
-			type : "POINT"
-		});
-		bar.setStyler( styler );
-		nodeMap.init();
-		nodeMap.addLayer( bar );	
+	
+	var size,bbox;
+	var layerIds = req.params.str.split(",");
+	var boundsArray = layerIds.splice(layerIds.length-4);
+	var sizeArray = layerIds.splice(layerIds.length-2);
+	size ={ x :sizeArray[0], y : sizeArray[1] };
+	bbox = new Bounds( boundsArray[0], boundsArray[1], boundsArray[2], boundsArray[3]);
+	//일단 여기도 refactorng
+	nodeMap.setExtent( layerIds, bbox, size , function( str ){
+		//png string 을 data *.png 파일로 저장하는 모듈.
+		var data = str.replace(/^data:image\/\w+;base64,/, "");
+		var buf = new Buffer(data, 'base64');
+		res.send( buf );
 		
-		nodeMap.setExtent( bbox, size , function( str ){
-			//png string 을 data *.png 파일로 저장하는 모듈.
-			var data = str.replace(/^data:image\/\w+;base64,/, "");
-			var buf = new Buffer(data, 'base64');
-			res.send(buf,{"Content-Type":"image/png"});
-			
-//			console.log("before response set");
-//			writer.setResponse(res);
-//			writer.write(str);
-//			console.log("after response write");
-//		    console.log("the end now.");
-		});
-//		res.send("456");
-	}
+	});
 
-//	nodeMap.makeCanvas(res); 
 });
 
-app.listen(parseInt(process.argv[2] || '3000', 10));
+app.listen(parseInt(process.argv[2] || '8080', 10));
