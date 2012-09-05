@@ -1,8 +1,7 @@
 var express 	= require('express')
-	, app 		= express.createServer()
+	, app 		= express()
 	, nodeMap 	= require('./lib/NodeMap')
 	, Bounds 	= require('./lib/atomic/BaseTypes').Bounds
-	
 	, writer 	= require('./lib/writer/ImgTagWriter')
 	, test		= require('./server-test')
 	, jade 		= require('jade');
@@ -10,7 +9,7 @@ var express 	= require('express')
 //css, image등등의 static folder 셋팅 .
 app.configure(function(){
 	//config
-	app.register('.jade', jade);
+	app.engine('jade', jade.__express);
 	app.set('views', __dirname + '/views');
 	app.set('view engine', 'jade');
 	//middleware

@@ -1,10 +1,13 @@
 var nodeMap 	= require('./lib/NodeMap') 
+	, Image 	= require('canvas').Image
 	, adaptor 	= require('./lib/adaptor/database/pg/PostGisAdaptor')
 	, Styler 	= require('./lib/styler/Styler').Styler
 	, Condition = require('./lib/styler/Condition').Condition
 	, Brush 	= require('./lib/styler/Brush').Brush
 	, Bar 		= require('./lib/model/layer/bar').Layer;
-
+var image = new Image;
+image.src = "./img/marker-green.png";
+image.onload = function(){console.log("image is loaded!");};
 var bar = new Bar();
 bar.setAdaptor( adaptor );
 var style1 = new Styler({
@@ -23,7 +26,7 @@ var style1 = new Styler({
 	})
 	
 	],
-	brushes :[new Brush({fillStyle:"#8ED6FF",strokeStyle : "black",radius:10}),
+	brushes :[new Brush({imageObj: image}),
 	          new Brush({fillStyle:"#8ED600",strokeStyle : "red",radius:8}),
 	          new Brush({fillStyle:"#8E33FF",strokeStyle : "yellow",radius:10})
 	          ]
