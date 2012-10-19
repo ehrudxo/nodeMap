@@ -4,6 +4,9 @@ var express 	= require('express')
 	, Bounds 	= require('./lib/atomic/BaseTypes').Bounds
 	, writer 	= require('./lib/writer/ImgTagWriter')
 	, test		= require('./server-test')
+	, fs		= require('fs')
+	, cluster   = require('cluster')
+	, numCPUs   = require('os').cpus().length
 	, jade 		= require('jade');
 
 //css, image등등의 static folder 셋팅 .
@@ -45,14 +48,25 @@ app.get("/canvas/imgSvc/:str",function(req,res){
 	size ={ x :sizeArray[0], y : sizeArray[1] };
 	bbox = new Bounds( boundsArray[0], boundsArray[1], boundsArray[2], boundsArray[3]);
 	//일단 여기도 refactorng
-	nodeMap.setExtent( layerIds, bbox, size , function( str ){
+	nodeMap.setExtent( layerIds, bbox, size , function( buf ){
+//		res.set('Content-Type', 'application/octet-stream');
 		//png string 을 data *.png 파일로 저장하는 모듈.
-		var data = str.replace(/^data:image\/\w+;base64,/, "");
-		var buf = new Buffer(data, 'base64');
+//		var data = str.replace(/^data:image\/\w+;base64,/, "");
+//		var buf = new Buffer(data, 'base64');
 		res.send( buf );
-		
+		//console.log("sent");
+//		console.log(str.toString());
+//		res.send(str.toString());
 	});
-
 });
-
-app.listen(parseInt(process.argv[2] || '8080', 10));
+//if (cluster.isMaster) {
+//  for (var i = 0; i < numCPUs; i++) {
+//    cluster.fork();
+//  }
+//
+//  cluster.on('exit', function(worker, code, signal) {
+//    console.log('worker ' + worker.process.pid + ' died');
+//  });
+//} else {
+	app.listen(parseInt(process.argv[2] || '8080'));
+//}

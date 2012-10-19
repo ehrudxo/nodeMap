@@ -17,10 +17,35 @@
           top: 15px;
           left: 15px;
       }
+      #map {
+      	width :800px;
+      	height:600px;
+      	border-style: solid;
+      	box-shadow: 20px 20px 10px black;
+      	margin:0px auto; /* Right and left margin widths set to "auto" */
+		text-align:left; /* Counteract to IE5/Win Hack */
+		padding:15px;
+      }
+      body{
+        text-align:center;
+        margin:50px 0px; padding:0px;
+        background : grey;
+	  }
+	  #wrapper{
+	  	width:850px;
+		margin:0px auto; /* Right and left margin widths set to "auto" */
+		text-align:left; /* Counteract to IE5/Win Hack */
+		padding:15px;
+	  }
   </style>
 </head>
 <body>
-<div id="map"></div>
+<div id="wrapper">
+	<div style="font-family:georgia;font-size:45;color:white;text-shadow: 0.1em 0.1em darkgrey; "><strong>NodeMap sample</strong> </div>
+	
+		<div id="map"></div>
+	</div>
+
 </body>
 </html>
 <script src ='./js/firebug-lite.js'></script>

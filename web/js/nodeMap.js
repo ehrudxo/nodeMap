@@ -19,6 +19,9 @@ NodeMap.prototype.Tile = OpenLayers.Class(OpenLayers.Layer.TMS,{
 	className: "NodeMap.client.Layer.Tile"
 });
 NodeMap.prototype.Layer = OpenLayers.Class(OpenLayers.Layer.WMS,{
+	initialize: function(){
+		OpenLayers.Layer.WMS.prototype.initialize.apply(this,arguments);
+	},
 	getURL: function(bounds) {
 		bounds = this.adjustBounds(bounds);
         var imageSize = this.getImageSize(); 
@@ -33,13 +36,15 @@ NodeMap.prototype.Layer = OpenLayers.Class(OpenLayers.Layer.WMS,{
 	       }  
        }
        var dest = new OpenLayers.Projection("EPSG:5181");
-       bounds = bounds.transform( map.projection, dest);
-       var ba = bounds.toArray();
-	   var _mapBounds = this.params.LAYERS+","+imageSize.w+","+imageSize.h+","+(this.encodeBBOX ?  bounds.toBBOX() : bounds.toArray());
+       var transBounds = bounds.clone().transform( map.projection, dest);
+       
+	   var _mapBounds = this.params.LAYERS+","+imageSize.w+","+imageSize.h+","+(this.encodeBBOX ?  transBounds.toBBOX() : transBounds.toArray());
        return this.url+ _mapBounds;
 	},
 	className: "NodeMap.client.Layer.ImageLayer"
 });
+
 var nodeMap = new NodeMap();
+
 
 //  var layer = new BaseTileLayer("기본지도",AlThree.Settings.tileUrl+"/1.0.0/basic/",baseoption);
