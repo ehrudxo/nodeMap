@@ -1,4 +1,5 @@
 facebook page http://www.facebook.com/NodeMap
+You can find me @iam_keen
 
 This project is based on node-canvas.
 By Node-Canvas, You can draw map by HTML5 canvas API.
@@ -6,10 +7,11 @@ So It is very useful to you if you want to write code in javascript.
 
 
 module dependency
+you can find at npm registry
 1. node-canvas
-	- npm registry
-2. iconv
-	- npm registry
-3. iconv-Extend
-	- https://github.com/floras/node-iconvExtend
+2. pg
+3. express
+4. async
+5. jquery
+
  
